@@ -17,7 +17,7 @@ colnames(dep_weibo) <- c('name','gender','location','intro','num_weibo','num_fol
 all_weibo <- rbind(dep_weibo,all_weibo)
 
 all_weibo <- all_weibo[!duplicated(all_weibo$weibo),]
-#clean all the non original data
+#clean all the non original data  grep: select string with certain pattern
 
 all_weibo2 <- all_weibo[- grep("映客iOS|微博等级|网易云音乐|荔枝FM|明星势力榜|QQ音乐|Feelapp
                                |手机NBA中文官网|微博红包|粉丝红包|微卡券|一直播|LOFTER|微博会员中心
@@ -45,7 +45,7 @@ all_weibo3 <- all_weibo2[- grep("新版微博|剧情|微博桌面|我正在听|�
 all_weibo3 <- all_weibo3[- grep("淘宝|批发|零售|诚招代理|找房小能手|护肤达人|Nancy韩国皮肤", all_weibo3$intro),]
 
 
-#remove LOCATION, BRAKETS, PUNCUTATION, NUMBERS AND ENGLISH 
+#remove LOCATION, BRAKETS, PUNCUTATION, NUMBERS AND ENGLISH  gusb: replace patterns in a string with another pattern
 all_weibo3$weibo %>% gsub("我在:\\S+ *", "", .) %>%
         gsub("我在这里:\\S+ *", "", .) %>%
         gsub("我在这里:\\s+ *", "", .)%>%
@@ -66,12 +66,9 @@ all_weibo5[is.na(all_weibo5)] <- 0
 #select weibo column
 weibo <- all_weibo5[,c("name","weibo")]
 
-#LDA
-
-#weibo2 <- weibo[11000:12000,]
 
 
-#ixseg = worker()
+#set up jiebaR worker
 # c <- mixseg <= weibo$weibo
 # set dictionary
 mixseg = worker(type  = "mix",
